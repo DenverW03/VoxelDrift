@@ -15,6 +15,9 @@ public class Voxel {
         this.y = y;
         this.z = z;
         calculateVertices();
+        for(int i=0; i<8; i++){
+            System.out.println(vertices[i]);
+        }
     }
 
     public Vector3i[] getVertices() {
@@ -41,7 +44,7 @@ public class Voxel {
      * @param num the number to apply the function to
      * @return
      */
-    public int increaseMagnitudeByOne(int num) {
+    public int increaseMagnitudeByOne(int num) { // not necessary, can be removed and calculations refactored
         if(num >= 0) {
             return num + 1;
         }

@@ -44,7 +44,7 @@ public class Main {
 		// creating a camera
 		camera = new Camera(width, height);
 		// creating a cube
-		world.createVoxel(1.0f, 0.0f, 0.0f, 0.0f, 10, 5, -15);
+		world.createVoxel(1.0f, 0.0f, 0.0f, 0.0f, 10, 5, 15);
     }
 
     private void loop() {
@@ -72,7 +72,7 @@ public class Main {
 
 			Matrix4f projectionMatrix = camera.getProjectionMatrix();
 			// rendering a specific voxel
-			Voxel voxel = world.getVoxel(10, 5, -15);
+			Voxel voxel = world.getVoxel(10, 5, 15);
 			Vector3i[] vertices = voxel.getVertices();
 			Vector3f[] verticesFloat = new Vector3f[8];
 			Vector4f[] verticesFWithW = new Vector4f[8];
@@ -93,6 +93,15 @@ public class Main {
 				xscreen[i] = (verticesInClip[i].x + 1.0f) * 0.5f * width;
 				yscreen[i] = (1.0f - verticesInClip[i].y) * 0.5f * height;
 			}
+			System.out.println(xscreen[0]);
+			System.out.println(yscreen[0]);
+			GL11.glBegin(GL11.GL_QUADS);
+            GL11.glColor3f(1.0f, 0.0f, 0.0f); // Red color
+            GL11.glVertex2f(xscreen[0], yscreen[0]);
+			GL11.glVertex2f(xscreen[1], yscreen[1]);
+			GL11.glVertex2f(xscreen[2], yscreen[2]);
+			GL11.glVertex2f(xscreen[3], yscreen[3]);
+            GL11.glEnd();
 
             GLFW.glfwSwapBuffers(window);
             GLFW.glfwPollEvents();
