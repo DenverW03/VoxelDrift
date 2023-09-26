@@ -21,6 +21,10 @@ public class Chunk {
      * @param z z plane
      */
     public void createVoxel(float r, float g, float b, float a, int x, int y, int z) {
-        voxels[x][y][z] = new Voxel(r, g, b, a);
+        voxels[x][y][z] = new Voxel(r, g, b, a, x, y ,z);
+    }
+
+    public Voxel getVoxel(int x, int y, int z) {
+        return voxels[x][y][z];
     }
 }
