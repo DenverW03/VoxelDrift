@@ -5,6 +5,8 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class Main {
     private long window;
@@ -72,7 +74,25 @@ public class Main {
 			// rendering a specific voxel
 			Voxel voxel = world.getVoxel(10, 5, -15);
 			Vector3i[] vertices = voxel.getVertices();
-
+			Vector3f[] verticesFloat = new Vector3f[8];
+			Vector4f[] verticesFWithW = new Vector4f[8];
+			for(int i=0; i<vertices.length; i++){
+				verticesFloat[i] = new Vector3f(vertices[i]);
+				verticesFWithW[i] = new Vector4f(verticesFloat[i].x, verticesFloat[i].y, verticesFloat[i].z, 1.0f);
+			}
+			// getting the final vertices using projection
+			Vector4f[] verticesInClip = new Vector4f[8];
+			for(int i=0; i<verticesFWithW.length; i++){
+				verticesInClip[i] = verticesFWithW[i].mul(projectionMatrix);
+				verticesInClip[i].div(verticesInClip[i].w);
+			}
+			// mapping to screen coords
+			float xscreen[] = new float[8];
+			float yscreen[] = new float[8];
+			for(int i=0; i<8; i++){
+				xscreen[i] = (verticesInClip[i].x + 1.0f) * 0.5f * width;
+				yscreen[i] = (1.0f - verticesInClip[i].y) * 0.5f * height;
+			}
 
             GLFW.glfwSwapBuffers(window);
             GLFW.glfwPollEvents();
