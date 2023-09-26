@@ -6,8 +6,13 @@ import org.lwjgl.opengl.GL11;
 
 public class Main {
     private long window;
+	private int width;
+	private int height;
 
     public void run() {
+		// setting the window size
+		width = 1280;
+		height = 720;
         init();
         loop();
         cleanup();
@@ -17,20 +22,15 @@ public class Main {
         if (!GLFW.glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
-
         GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_FALSE);
-
-        window = GLFW.glfwCreateWindow(800, 600, "Square Drawer", 0, 0);
+        window = GLFW.glfwCreateWindow(width, height, "VoxelEngine", 0, 0);
         if (window == 0) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
-
         GLFWVidMode vidMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
         GLFW.glfwSetWindowPos(window, (vidMode.width() - 800) / 2, (vidMode.height() - 600) / 2);
-
         GLFW.glfwMakeContextCurrent(window);
         GL.createCapabilities();
-
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     }
 
@@ -45,6 +45,16 @@ public class Main {
             GL11.glVertex2f(0.5f, -0.5f);
             GL11.glVertex2f(0.5f, 0.5f);
             GL11.glVertex2f(-0.5f, 0.5f);
+            GL11.glEnd();
+
+			GL11.glBegin(GL11.GL_TRIANGLES);
+            GL11.glColor3f(0.0f, 1.0f, 0.0f); // Red color
+
+            // Triangle 1
+            GL11.glVertex2f(-0.5f, -0.5f);
+            GL11.glVertex2f(0.5f, -0.5f);
+            GL11.glVertex2f(0.5f, 0.5f);
+
             GL11.glEnd();
 
             GLFW.glfwSwapBuffers(window);
